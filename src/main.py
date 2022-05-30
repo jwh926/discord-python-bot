@@ -1,7 +1,7 @@
+from lib2to3.pgen2 import token
 import discord
 from discord.ext import commands
 import python_weather
-
 
 bot = commands.Bot(command_prefix='!', description='testing')
 
@@ -10,11 +10,11 @@ async def on_ready():
     print('Logged in as', bot.user.name, end=", ")
     print(bot.user.id)
 
-@bot.command()
+@commands.command()
 async def ping(ctx):
     await ctx.send(f'pong! {round(round(bot.latency, 4)*1000)}ms')
 
-@bot.command()
+@commands.command()
 async def weather(ctx, day="", *, city):
     client = python_weather.Client(format=python_weather.METRIC)
     w = await client.find(city)
@@ -46,5 +46,8 @@ async def weather(ctx, day="", *, city):
         await ctx.send(f'{w.url}')
     await client.close()
 
+file = open(r"src/token", "r")
+token = file.read()
+file.close()
 
-bot.run('ODU0NTE4Mjc0MjU1NDg3MDA2.G9qKEC.RadUk3VRwP52S0cL_yBc96rzhPsmQdfnTBa7qM')
+bot.run(token)
